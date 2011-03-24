@@ -1,7 +1,9 @@
 """Pangler objects for panglery.
 """
 
+import functools
 import inspect
+import warnings
 
 class Pangler(object):
     """A pangler.
@@ -49,6 +51,12 @@ class Pangler(object):
             deco(_func)
         else:
             return deco
+
+    @functools.wraps(subscribe)
+    def add_hook(self, *a, **kw):
+        warnings.warn("use subscribe instead of add_hook", DeprecationWarning)
+        self.subscribe(*a, **kw)
+
 
     def trigger(self, **event):
         """Trigger an event.
