@@ -16,7 +16,7 @@ class Pangler(object):
         self.hooks = []
         self.instance = None
 
-    def add_hook(self, _func=None, needs=(), returns=(), modifies=(),
+    def subscribe(self, _func=None, needs=(), returns=(), modifies=(),
             **conditions):
         """Add a hook to a pangler.
 
