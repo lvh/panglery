@@ -187,3 +187,32 @@ class TestPanglerAggregate(unittest.TestCase):
             p = agg
         self.assertEqual(TestClass.p, agg)
         self.assertEqual(TestClass().p, agg)
+
+class DeprecatedAPITest(unittest.TestCase):
+    """
+    Tests if the deprecated API works.
+    """
+    def _test_add_hook(self, attach_hook):
+        p = panglery.Pangler()
+        self.fired = False
+
+        attach_hook(p)
+        p.trigger(event='test')
+
+        self.assertTrue(self.fired)
+
+    def test_add_hook_decorator(self):
+        def attach_hook(p):
+            @p.add_hook(event='test')
+            def hook(p):
+                self.fired = True
+
+        self._test_add_hook(attach_hook)
+
+    def test_add_hook_direct(self):
+        def attach_hook(p):
+            def hook(p):
+                self.fired = True
+            p.add_hook(hook, event='test')
+
+        self._test_add_hook(attach_hook)
